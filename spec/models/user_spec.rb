@@ -11,5 +11,15 @@ RSpec.describe User, type: :model do
       @user.save
       expect(@user.errors.full_messages).to include("Name can't be blank")
     end
+    it "should provide error if password and password_confirmation do not match" do
+      @user = User.new(name: nil, email: 'ds1@gmail.com', password: '123HELLO', password_confirmation: '1234HELLO' )
+      @user.save
+      expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+    end
+    it "should have a minimum password length" do
+      @user = User.new(name: nil, email: 'ds1@gmail.com', password: 'ELLO', password_confirmation: 'ELLO' )
+      @user.save
+      expect(@user.errors.full_messages).to include("Password is too short (minimum is 5 characters)")
+    end
   end
 end
