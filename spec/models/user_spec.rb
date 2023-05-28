@@ -21,5 +21,10 @@ RSpec.describe User, type: :model do
       @user.save
       expect(@user.errors.full_messages).to include("Password is too short (minimum is 5 characters)")
     end
+    it "should have an erorr if password is not set" do
+      @user = User.new(name: 'Daniel', email: 'ds1@gmail.com', password: nil, password_confirmation: nil )
+      @user.save
+      expect(@user.errors.full_messages).to include("Password can't be blank")
+    end
   end
 end
